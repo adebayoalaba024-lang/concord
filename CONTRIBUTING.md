@@ -82,3 +82,14 @@ view (`apps/web/src/breaks.tsx`). Movement and distribution breaks follow the sa
 
 By taking part you agree to follow the [Code of Conduct](./CODE_OF_CONDUCT.md). By contributing
 you agree that your contribution is licensed under the [MIT license](./LICENSE).
+
+
+## CI checks
+
+Every pull request runs the `CI` workflow on a matrix. All three jobs must be green before merging:
+
+- `check (ubuntu-latest, node 24.11)` runs on the pinned Node 24 minor
+- `check (ubuntu-latest, node 24.x)` runs on the latest Node 24
+- `check (macos-latest, node 24.x)` runs on macOS, to catch `node:sqlite` differences
+
+Each job has a 15 minute timeout, so a stuck run fails instead of hanging.
