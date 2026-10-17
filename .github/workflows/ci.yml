@@ -14,14 +14,26 @@ concurrency:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    name: check (${{ matrix.os }}, node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            node: "24.11"
+          - os: ubuntu-latest
+            node: "24.x"
+          - os: macos-latest
+            node: "24.x"
     steps:
       - uses: actions/checkout@v4
       # Version comes from "packageManager" in package.json.
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: ${{ matrix.node }}
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       # The API and the dashboard import packages/core from its build output, so build first.
