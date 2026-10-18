@@ -121,3 +121,6 @@ Every pull request runs the `CI` workflow on a matrix. All three jobs must be gr
 - `check (macos-latest, node 24.x)` runs on macOS, to catch `node:sqlite` differences
 
 Each job has a 15 minute timeout, so a stuck run fails instead of hanging.
+
+Coverage, the accessibility checks and the browser smoke test run only on the
+`ubuntu-latest` / Node 24.x job, because they upload artifacts and need a browser.
